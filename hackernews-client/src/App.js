@@ -1,9 +1,14 @@
 import React from 'react';
 import LinkListPage from './LinkListPage'
+import CreateLink from './CreateLink'
+
 
 function App() {
   return (
-    <LinkListPage />
+    <div>
+      <CreateLink />
+      <LinkListPage />
+    </div>
   );
 }
 
