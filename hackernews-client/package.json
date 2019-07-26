@@ -80,7 +80,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
     "babel-plugin-relay": "^5.0.0",
+    "graphql": "^14.4.2",
     "relay-compiler": "^5.0.0"
   },
   "jest": {
@@ -135,5 +137,5 @@
     "plugins": [
       "relay"
     ]
-  },
+  }
 }
