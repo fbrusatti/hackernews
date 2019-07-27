@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { GC_USER_ID, GC_AUTH_TOKEN } from './constants'
+import SigninUserMutation from './mutations/SigninUserMutation'
+import CreateUserMutation from './mutations/CreateUserMutation'
 
 class Login extends Component {
   state = {
@@ -53,7 +55,18 @@ class Login extends Component {
   }
 
   _confirm = async () => {
-    // ... you'll implement this in a bit
+    const { name, email, password } = this.state
+    if (this.state.login) {
+      SigninUserMutation(email, password, (token) => {
+        this._saveUserData(token)
+        this.props.history.push('/')
+      })
+    } else {
+      CreateUserMutation(name, email, password, (id, token) => {
+        this._saveUserData(id, token)
+        this.props.history.push('/')
+      })
+    }
   }
 
   _saveUserData = (id, token) => {
