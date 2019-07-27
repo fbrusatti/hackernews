@@ -1,29 +1,37 @@
 # Welcome to Graphcool!
 #
-# This file is the main config file for your Graphcool Service.
-# It's very minimal at this point and uses default values.
-# We've included a hello world function here.
-# Just run `graphcool deploy` to have the first running Graphcool Service.
-#
-# Check out some examples:
-#    https://github.com/graphcool/framework/tree/master/examples
-#
-# Here are the reference docs of this definition format:
-# https://www.graph.cool/docs/reference/service-definition/graphcool.yml-foatho8aip
-#
-# Happy Coding!
-
 
 # In the types.graphql you define your data schema
 types: ./types.graphql
 
-
 functions:
-  hello:
-    handler:
-      code: src/hello.js
+  # This resolver allows to create a new user with the
+  # `signupUser`-mutation defined in `signup.graphql`.
+  signup:
     type: resolver
-    schema: src/hello.graphql
+    schema: src/signup.graphql
+    handler:
+      code:
+        src: src/signup.js
+
+  # This resolver allows to retrieve a node token using the
+  # `authenticateUser`-mutation defined in `authenticate.graphql`.
+  authenticate:
+    type: resolver
+    schema: src/authenticate.graphql
+    handler:
+      code:
+        src: src/authenticate.js
+
+  # This resolver allows to check whether a request belongs to a
+  # currently authenticated `User` node using the
+  # `loggedInUser` query defined in `loggedInUser.graphql`.
+  loggedInUser:
+    type: resolver
+    schema: src/loggedInUser.graphql
+    handler:
+      code:
+        src: src/loggedInUser.js
 
 
 # Model/Relation permissions are used to limit the API access
@@ -34,9 +42,10 @@ functions:
 permissions:
   - operation: "*"
 
-
 # Your root tokens used for functions to get full access to the API
 # Read more here:
 # https://www.graph.cool/docs/reference/auth/authentication/authentication-tokens-eip7ahqu5o
-# rootTokens:
-#   - mytoken
+rootTokens:
+  - signup
+  - authenticate
+  - loggedInUser

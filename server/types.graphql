@@ -1,6 +1,8 @@
 type User @model {
   id: ID! @isUnique
   name: String!
+  email: String @isUnique
+  password: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   links: [Link!]! @relation(name: "UsersLinks")
