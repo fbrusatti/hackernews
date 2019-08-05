@@ -57,8 +57,8 @@ class Login extends Component {
   _confirm = async () => {
     const { name, email, password } = this.state
     if (this.state.login) {
-      SigninUserMutation(email, password, (token) => {
-        this._saveUserData(token)
+      SigninUserMutation(email, password, (id, token) => {
+        this._saveUserData(id, token)
         this.props.history.push('/')
       })
     } else {

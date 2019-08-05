@@ -7,6 +7,7 @@ import environment from '../Environment'
 const mutation = graphql`
   mutation SigninUserMutation($email: String!, $password: String!) {
     authenticateUser(email: $email, password: $password) {
+      id
       token
     }
   }
@@ -27,7 +28,8 @@ export default (email, password, callback) => {
       onCompleted: (response) => {
         console.log(response)
         const token = response.authenticateUser.token
-        callback(token)
+        const id = response.authenticateUser.id
+        callback(id, token)
       },
       onError: err => console.error(err),
     },

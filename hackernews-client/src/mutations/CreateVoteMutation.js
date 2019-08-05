@@ -3,7 +3,6 @@ import {
   graphql
 } from 'react-relay'
 import environment from '../Environment'
-import { ConnectionHandler } from 'relay-runtime'
 
 const mutation = graphql`
   mutation CreateVoteMutation($input: CreateVoteInput!) {
@@ -39,10 +38,21 @@ export default (userId, linkId) => {
       mutation,
       variables,
       optimisticUpdater: proxyStore => {
-        // ... you'll implement this in a bit
+        const link = proxyStore.get(linkId)
+        const currentVoteCount = link.getLinkedRecord('votes').getValue('count')
+        const newVoteCount = currentVoteCount + 1
+
+        link.getLinkedRecord('votes').setValue(newVoteCount, 'count')
       },
       updater: proxyStore => {
-        // ... this as well
+        const createVoteField = proxyStore.getRootField('createVote')
+        const newVote = createVoteField.getLinkedRecord('vote')
+        const updatedLink = newVote.getLinkedRecord('link')
+        const newVotes = updatedLink.getLinkedRecord('votes')
+        const newVoteCount = newVotes.getValue('count')
+
+        const link = proxyStore.get(linkId)
+        link.getLinkedRecord('votes').setValue(newVoteCount, 'count')
       },
       onError: err => console.error(err),
     },

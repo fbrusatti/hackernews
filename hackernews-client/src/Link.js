@@ -6,6 +6,8 @@ import {
 import { GC_USER_ID } from './constants'
 import { timeDifferenceForDate } from './utils'
 import CreateVoteMutation from './mutations/CreateVoteMutation'
+import { fetchQuery } from './Environment'
+
 
 class Link extends Component {
 
@@ -36,9 +38,13 @@ class Link extends Component {
 
     const canUserVoteOnLink = await this._userCanVoteOnLink(userId, linkId)
     if (canUserVoteOnLink) {
+      console.log(" ===== _voteForLink ====== ");
+      console.log("userId ", userId);
+      console.log("linkId ", linkId);
+      console.log(" ==================== ");
       CreateVoteMutation(userId, linkId)
     } else {
-      console.log(`Current already voted for that link`)
+      console.log(`Current user already voted for that link`)
     }
   }
 
@@ -60,7 +66,7 @@ class Link extends Component {
       }`
     const checkVoteQuery = { text: checkVoteQueryText }
 
-    const result = await this.props.relay.environment._network.fetch(checkVoteQuery, {userId, linkId})
+    const result = await fetchQuery(checkVoteQuery, {userId, linkId})
     return result.data.viewer.allVotes.edges.length === 0
   }
 

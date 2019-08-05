@@ -48,7 +48,7 @@ class CreateLink extends Component {
     }
     const { description, url } = this.state
 
-    CreateLinkMutation(description, url, () => this.props.history.push('/'))
+    CreateLinkMutation(postedById, description, url, () => this.props.history.push('/'))
   }
 }
 

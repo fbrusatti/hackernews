@@ -35,7 +35,7 @@ export default (name, email, password, callback) => {
       onCompleted: (response) => {
         console.log(response)
         const id = response.signupUser.id
-        const token = response.authenticateUser.token
+        const token = response.signupUser.token
         callback(id, token)
       },
       onError: err => console.error(err),
