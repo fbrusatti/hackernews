@@ -51,9 +51,9 @@ module.exports = event => {
     })
     .then(graphcoolUserId => {
       return graphcool.generateAuthToken(graphcoolUserId, 'User')
-    })
-    .then(token => {
-      return { data: { token } }
+          .then(token => {
+            return { data: {id: graphcoolUserId, token}}
+        })
     })
     .catch(error => {
       // Log error, but don't expose to caller
